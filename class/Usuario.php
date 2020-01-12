@@ -166,6 +166,23 @@
 
 		}
 
+		public function delete(){
+
+			$sql = new Sql();
+
+			$sql->query("DELETE FROM tb_usuarios WHERE idUsuario = :ID",array(
+
+				':ID'=>$this->getIDUsuario()
+
+			));
+
+			$this->setIDUsuario(0);
+			$this->setDesLogin("");
+			$this->setDesSenha("");
+			$this->setDTCadastro(new DateTime());
+
+		}
+
 		public function __construct($login = "",$pass = ""){
 
 			$this->setDesLogin($login);

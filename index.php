@@ -33,12 +33,16 @@
 	// echo $aluno;
 
 	//---Atualiza usuarios no sistema
+	// $usuario = new Usuario();
+	// $usuario->loadById(6);
+	// $usuario->update("professor","passProf");
+	// echo $usuario;
+
+	//deletar usuario
 	$usuario = new Usuario();
-
-	$usuario->loadById(6);
-
-	$usuario->update("professor","passProf");
-
+	$usuario->loadById(4);
+	$usuario->delete();
 	echo $usuario;
+
 
 ?>
