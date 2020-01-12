@@ -73,12 +73,7 @@
 
 			if(count($results) > 0) {
 
-				$row = $results[0];
-
-				$this->setIDUsuario($row['idUsuario']);
-				$this->setDesLogin($row['desLogin']);
-				$this->setDesSenha($row['desSenha']);
-				$this->setDTCadastro(new DateTime($row['dtCadastro']));
+				$this->setData($results[0]);
 
 			}
 
@@ -115,12 +110,7 @@
 
 			if(count($results) > 0) {
 
-				$row = $results[0];
-
-				$this->setIDUsuario($row['idUsuario']);
-				$this->setDesLogin($row['desLogin']);
-				$this->setDesSenha($row['desSenha']);
-				$this->setDTCadastro(new DateTime($row['dtCadastro']));
+				$this->setData($results[0]);
 
 			} else {
 
@@ -128,6 +118,58 @@
 				
 
 			}
+
+		}
+
+		public function setData($data){
+
+			$this->setIDUsuario($data['idUsuario']);
+			$this->setDesLogin($data['desLogin']);
+			$this->setDesSenha($data['desSenha']);
+			$this->setDTCadastro(new DateTime($data['dtCadastro']));		
+
+		}
+
+		public function insert(){
+
+			$sql = new Sql();
+
+			$results = $sql->select("CALL sp_usuarios_insert(:LOGIN,:PASS)",array(
+				':LOGIN'=>$this->getDesLogin(),
+				':PASS'=>$this->getDesSenha()
+
+			));
+
+			if(count($results) > 0){
+
+				$this->setData($results[0]);
+
+			}
+
+		}
+
+		public function update($login,$pass){
+
+			$this->setDesLogin($login);
+			$this->setDesSenha($pass);
+
+
+			$sql = new Sql();
+
+			$sql->query("UPDATE tb_usuarios SET desLogin = :LOGIN, desSenha = :PASS WHERE idUsuario = :ID",array(
+
+				':LOGIN'=>$this->getDesLogin(),
+				':PASS'=>$this->getDesSenha(),
+				':ID'=>$this->getIDUsuario()
+
+			));
+
+		}
+
+		public function __construct($login = "",$pass = ""){
+
+			$this->setDesLogin($login);
+			$this->setDesSenha($pass);
 
 		}
 
